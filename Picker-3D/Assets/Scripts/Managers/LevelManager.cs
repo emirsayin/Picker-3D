@@ -60,19 +60,50 @@ public class LevelManager : MonoBehaviour
         _levelDestroyerCommand = new OnLevelDestroyerCommand(levelHolder);
     }
 
-    private void OnInitializeLevel()
+    private void OnEnable()
     {
-        _levelLoaderCommand.Execute(levelID);
+        SubscribeEvents();
     }
 
-    private void OnClearActiveLevel()
+    private void SubscribeEvents()
     {
-        _levelDestroyerCommand.Execute();
+        CoreGameSignals.Instance.onLevelInitialize += _levelLoaderCommand.Execute;
+        CoreGameSignals.Instance.onClearActiveLevel += _levelDestroyerCommand.Execute;
+        CoreGameSignals.Instance.onNextLevel += OnNextLevel;
+        CoreGameSignals.Instance.onRestartLevel += OnRestartLevel;
+    }
+
+    private void UnSubscribeEvents()
+    {
+        CoreGameSignals.Instance.onLevelInitialize -= _levelLoaderCommand.Execute;
+        CoreGameSignals.Instance.onClearActiveLevel -= _levelDestroyerCommand.Execute;
+        CoreGameSignals.Instance.onNextLevel -= OnNextLevel;
+        CoreGameSignals.Instance.onRestartLevel -= OnRestartLevel;
+    }
+
+    private void OnDisable()
+    {
+        UnSubscribeEvents();
     }
 
     private void Start()
     {
-        OnInitializeLevel();
+        _levelLoaderCommand.Execute(levelID);
+    }
+
+    private void OnNextLevel()
+    {
+        CoreGameSignals.Instance.onClearActiveLevel?.Invoke();
+        CoreGameSignals.Instance.onReset?.Invoke();
+        CoreGameSignals.Instance.onLevelInitialize?.Invoke(levelID);
+    }
+
+    private void OnRestartLevel()
+    {
+        CoreGameSignals.Instance.onClearActiveLevel?.Invoke();
+        CoreGameSignals.Instance.onReset?.Invoke();
+        CoreGameSignals.Instance.onLevelInitialize?.Invoke(levelID);
+
     }
 
 
