@@ -1,3 +1,4 @@
+using Signals;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour

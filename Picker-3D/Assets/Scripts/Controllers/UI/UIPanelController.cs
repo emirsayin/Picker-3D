@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using Signals;
 
 public class UIPanelController : MonoBehaviour
 {
@@ -25,11 +26,15 @@ public class UIPanelController : MonoBehaviour
     
     private void SubscribeEvents()
     {
-
+        CoreUISignals.Instance.onOpenPanel += OnOpenPanel;
+        CoreUISignals.Instance.onClosePanel += OnClosePanel;
+        CoreUISignals.Instance.onCloseAllPanels += OnCloseAllPanels;
     }
     private void UnSubscribeEvents()
     {
-
+        CoreUISignals.Instance.onOpenPanel -= OnOpenPanel;
+        CoreUISignals.Instance.onClosePanel -= OnClosePanel;
+        CoreUISignals.Instance.onCloseAllPanels -= OnCloseAllPanels;
     }
 
     private void OnDisable()

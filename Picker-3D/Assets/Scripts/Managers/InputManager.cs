@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Data.UnityObjects;
 using Data.ValueObjects;
 using Signals;
@@ -54,12 +55,26 @@ namespace Managers
 
         private void SubscribeEvents()
         {
+            InputSignal.Instance.onEnableInput += OnEnableInput;
+            InputSignal.Instance.onDisableInput += OnDisableInput;
             CoreGameSignals.Instance.onReset += OnReset;
             CoreGameSignals.Instance.onPlay += OnPlay;
         }
 
+        private void OnDisableInput()
+        {
+            _isAvailableForTouch = false;
+        }
+
+        private void OnEnableInput()
+        {
+            _isAvailableForTouch = true;
+        }
+
         private void UnSubscribeEvents()
         {
+            InputSignal.Instance.onEnableInput -= OnEnableInput;
+            InputSignal.Instance.onDisableInput -= OnDisableInput;
             CoreGameSignals.Instance.onReset -= OnReset;
             CoreGameSignals.Instance.onPlay -= OnPlay;
         }
