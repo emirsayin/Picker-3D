@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Data.ValueObjects;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "CD_Level", menuName = "Picker3D/CD_Level", order = 1)]

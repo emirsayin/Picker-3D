@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Data.UnityObjects;
 using Data.ValueObjects;
+using Keys;
 using Signals;
 using Sirenix.OdinInspector;
 using Unity.Mathematics;
@@ -55,26 +55,16 @@ namespace Managers
 
         private void SubscribeEvents()
         {
-            InputSignal.Instance.onEnableInput += OnEnableInput;
-            InputSignal.Instance.onDisableInput += OnDisableInput;
+            InputSignals.Instance.onEnableInput += OnEnableInput;
+            InputSignals.Instance.onDisableInput += OnDisableInput;
             CoreGameSignals.Instance.onReset += OnReset;
             CoreGameSignals.Instance.onPlay += OnPlay;
         }
 
-        private void OnDisableInput()
-        {
-            _isAvailableForTouch = false;
-        }
-
-        private void OnEnableInput()
-        {
-            _isAvailableForTouch = true;
-        }
-
         private void UnSubscribeEvents()
         {
-            InputSignal.Instance.onEnableInput -= OnEnableInput;
-            InputSignal.Instance.onDisableInput -= OnDisableInput;
+            InputSignals.Instance.onEnableInput -= OnEnableInput;
+            InputSignals.Instance.onDisableInput -= OnDisableInput;
             CoreGameSignals.Instance.onReset -= OnReset;
             CoreGameSignals.Instance.onPlay -= OnPlay;
         }
@@ -94,17 +84,20 @@ namespace Managers
             {
                 _isTouching = false;
 
-                InputSignal.Instance.onInputReleased?.Invoke();
+                InputSignals.Instance.onInputReleased?.Invoke();
+                //Debug.LogWarning("Executed ---> onInputReleased");
             }
 
             if (Input.GetMouseButtonDown(0) && !IsPointerOverUIElement())
             {
                 _isTouching = true;
-                InputSignal.Instance.onInputTaken?.Invoke();
+                InputSignals.Instance.onInputTaken?.Invoke();
+                //Debug.LogWarning("Executed ---> onInputTaken");
                 if (!_isFirstTimeTouchTaken)
                 {
                     _isFirstTimeTouchTaken = true;
-                    InputSignal.Instance.onFirstTimeTouchTaken?.Invoke();
+                    InputSignals.Instance.onFirstTimeTouchTaken?.Invoke();
+                    //Debug.LogWarning("Executed ---> onFirstTimeTouchTaken");
                 }
 
                 _mousePosition = Input.mousePosition;
@@ -116,7 +109,7 @@ namespace Managers
                 {
                     if (_mousePosition != null)
                     {
-                        Vector2 mouseDeltaPos = (Vector2) Input.mousePosition - _mousePosition.Value;
+                        Vector2 mouseDeltaPos = (Vector2)Input.mousePosition - _mousePosition.Value;
 
 
                         if (mouseDeltaPos.x > _data.HorizontalInputSpeed)
@@ -129,12 +122,13 @@ namespace Managers
 
                         _mousePosition = Input.mousePosition;
 
-                        InputSignal.Instance.onInputDragged?.Invoke(new HorizontalInputParams()
+                        InputSignals.Instance.onInputDragged?.Invoke(new HorizontalnputParams()
                         {
                             HorizontalInputValue = _moveVector.x,
                             HorizontalInputClampNegativeSide = _data.ClampValues.x,
                             HorizontalInputClampPositiveSide = _data.ClampValues.y
                         });
+                        //Debug.LogWarning($"Executed ---> onInputDragged{_moveVector.x}");
                     }
                 }
             }
@@ -145,6 +139,15 @@ namespace Managers
             _isAvailableForTouch = true;
         }
 
+        private void OnEnableInput()
+        {
+            _isAvailableForTouch = true;
+        }
+
+        private void OnDisableInput()
+        {
+            _isAvailableForTouch = false;
+        }
 
         private bool IsPointerOverUIElement()
         {

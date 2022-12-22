@@ -1,19 +1,18 @@
-﻿using UnityEngine;
-using Managers;
+﻿using Managers;
 using Signals;
+using UnityEngine;
 
 namespace Controllers.Player
 {
     public class PlayerPhysicsController : MonoBehaviour
     {
-        #region Self variables
+        #region Self Variables
 
         #region Serialized Variables
-        
 
-        [SerializeField] public new Collider collider;
-        [SerializeField] public new Rigidbody rigidbody;
         [SerializeField] private PlayerManager manager;
+        [SerializeField] private new Collider collider;
+        [SerializeField] private new Rigidbody rigidbody;
 
         #endregion
 
@@ -21,17 +20,15 @@ namespace Controllers.Player
 
         private void OnTriggerEnter(Collider other)
         {
-            if(other.CompareTag("StageArea"))
+            if (other.CompareTag("StageArea"))
             {
                 CoreGameSignals.Instance.onStageAreaEntered?.Invoke();
-                InputSignal.Instance.onDisableInput?.Invoke();
-                
+                InputSignals.Instance.onDisableInput?.Invoke();
             }
         }
 
         public void OnReset()
         {
-            
         }
     }
 }

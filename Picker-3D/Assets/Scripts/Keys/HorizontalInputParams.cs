@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public struct HorizontalInputParams
+namespace Keys
 {
-    public float HorizontalInputValue;
-    public float HorizontalInputClampNegativeSide;
-    public float HorizontalInputClampPositiveSide;
+    public struct HorizontalnputParams
+    {
+        public float HorizontalInputValue;
+        public float HorizontalInputClampNegativeSide;
+        public float HorizontalInputClampPositiveSide;
+    }
 }

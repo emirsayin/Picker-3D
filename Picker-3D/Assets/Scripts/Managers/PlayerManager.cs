@@ -1,10 +1,11 @@
 using Controllers.Player;
 using Data.UnityObjects;
 using Data.ValueObjects;
-using Sirenix.OdinInspector;
-using UnityEngine;
+using Keys;
 using Signals;
+using Sirenix.OdinInspector;
 using System;
+using UnityEngine;
 
 namespace Managers
 {
@@ -52,24 +53,23 @@ namespace Managers
 
         private void SubscribeEvents()
         {
-            InputSignal.Instance.onInputTaken += OnInputTaken;
-            InputSignal.Instance.onInputReleased += OnInputReleased;
-            InputSignal.Instance.onInputDragged += OnInputDragged;
-            CoreGameSignals.Instance.onPlay += onPlay;
+            InputSignals.Instance.onInputTaken += OnInputTaken;
+            InputSignals.Instance.onInputReleased += OnInputReleased;
+            InputSignals.Instance.onInputDragged += OnInputDragged;
+            CoreGameSignals.Instance.onPlay += OnPlay;
             CoreGameSignals.Instance.onLevelSuccessful += OnLevelSuccessful;
             CoreGameSignals.Instance.onLevelFailed += OnLevelFailed;
             CoreGameSignals.Instance.onStageAreaEntered += OnStageAreaEntered;
             CoreGameSignals.Instance.onStageAreaSuccessful += OnStageAreaSuccessful;
             CoreGameSignals.Instance.onReset += OnReset;
-
         }
 
         private void UnSubscribeEvents()
         {
-            InputSignal.Instance.onInputTaken -= OnInputTaken;
-            InputSignal.Instance.onInputReleased -= OnInputReleased;
-            InputSignal.Instance.onInputDragged -= OnInputDragged;
-            CoreGameSignals.Instance.onPlay -= onPlay;
+            InputSignals.Instance.onInputTaken -= OnInputTaken;
+            InputSignals.Instance.onInputReleased -= OnInputReleased;
+            InputSignals.Instance.onInputDragged -= OnInputDragged;
+            CoreGameSignals.Instance.onPlay -= OnPlay;
             CoreGameSignals.Instance.onLevelSuccessful -= OnLevelSuccessful;
             CoreGameSignals.Instance.onLevelFailed -= OnLevelFailed;
             CoreGameSignals.Instance.onStageAreaEntered -= OnStageAreaEntered;
@@ -77,24 +77,23 @@ namespace Managers
             CoreGameSignals.Instance.onReset -= OnReset;
         }
 
-        private void onPlay()
-        {
-            movementController.IsReadyToPlay(true);
-        }
-
-        private void OnInputDragged(HorizontalInputParams inputParams)
-        {
-            movementController.UpdateInputParams(inputParams);
-        }
-
         private void OnDisable()
         {
             UnSubscribeEvents();
         }
 
+        private void OnPlay()
+        {
+            movementController.IsReadyToPlay(true);
+        }
+
         private void OnInputTaken()
         {
             movementController.IsReadyToMove(true);
+        }
+        private void OnInputDragged(HorizontalnputParams inputParams)
+        {
+            movementController.UpdateInputParams(inputParams);
         }
 
         private void OnInputReleased()
@@ -102,19 +101,11 @@ namespace Managers
             movementController.IsReadyToMove(false);
         }
 
-        private void OnReset()
-        {
-            movementController.OnReset();
-            meshController.OnReset();
-            physicsController.OnReset();
-        }
-
-        private void OnLevelFailed()
+        private void OnLevelSuccessful()
         {
             movementController.IsReadyToPlay(false);
         }
-
-        private void OnLevelSuccessful()
+        private void OnLevelFailed()
         {
             movementController.IsReadyToPlay(false);
         }
@@ -123,10 +114,16 @@ namespace Managers
         {
             movementController.IsReadyToPlay(false);
         }
-
         private void OnStageAreaSuccessful()
         {
             movementController.IsReadyToPlay(true);
+        }
+
+        private void OnReset()
+        {
+            movementController.OnReset();
+            meshController.OnReset();
+            physicsController.OnReset();
         }
     }
 }

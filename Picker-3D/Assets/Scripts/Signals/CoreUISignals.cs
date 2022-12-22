@@ -1,4 +1,5 @@
-﻿using Extensions;
+﻿using Enums;
+using Extensions;
 using UnityEngine.Events;
 
 namespace Signals

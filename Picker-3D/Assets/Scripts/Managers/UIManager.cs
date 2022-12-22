@@ -1,3 +1,4 @@
+using Enums;
 using Signals;
 using UnityEngine;
 
@@ -28,10 +29,11 @@ namespace Managers
 
         private void SubscribeEvents()
         {
-            CoreGameSignals.Instance.onLevelInitialize -= OnLevelInitialize;
+            CoreGameSignals.Instance.onLevelInitialize += OnLevelInitialize;
             CoreGameSignals.Instance.onLevelSuccessful += OnLevelSuccessful;
             CoreGameSignals.Instance.onLevelFailed += OnLevelFailed;
             CoreGameSignals.Instance.onReset += OnReset;
+
         }
 
         private void UnSubscribeEvents()
@@ -46,6 +48,7 @@ namespace Managers
         {
             UnSubscribeEvents();
         }
+
 
         private void OnLevelInitialize(int levelValue)
         {

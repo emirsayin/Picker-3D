@@ -1,3 +1,4 @@
+using Enums;
 using Signals;
 using UnityEngine;
 
@@ -14,6 +15,7 @@ namespace Managers
         #endregion
 
         #endregion
+
 
         private void Awake()
         {
@@ -39,7 +41,8 @@ namespace Managers
         {
             UnsubscribeEvents();
         }
-    
+
+        //[Button("Change State")]
         private void OnChangeGameState(GameStates state)
         {
             states = state;
