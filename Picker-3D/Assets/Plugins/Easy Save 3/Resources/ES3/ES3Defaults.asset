@@ -32,7 +32,14 @@ MonoBehaviour:
     - Assembly-CSharp-firstpass
     - Assembly-CSharp
     - Cinemachine
+    - sc.stylizedwater2.editor
+    - sc.stylizedwater2.runtime
+    - Boxophobic.PolyverseSkies.Runtime
+    - Boxophobic.Utils.Scripts
+    - Boxophobic.PolyverseSkies.Scripts
     - Sirenix.OdinInspector.Modules.UnityMathematics
+    - Boxophobic.PolyverseSkies.Editor
+    - Boxophobic.Utils.Editor
     showAdvancedSettings: 0
   addMgrToSceneAutomatically: 0
   autoUpdateReferences: 1

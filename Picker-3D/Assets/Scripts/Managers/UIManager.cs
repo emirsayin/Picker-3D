@@ -33,7 +33,6 @@ namespace Managers
             CoreGameSignals.Instance.onLevelSuccessful += OnLevelSuccessful;
             CoreGameSignals.Instance.onLevelFailed += OnLevelFailed;
             CoreGameSignals.Instance.onReset += OnReset;
-
         }
 
         private void UnSubscribeEvents()
@@ -48,7 +47,6 @@ namespace Managers
         {
             UnSubscribeEvents();
         }
-
 
         private void OnLevelInitialize(int levelValue)
         {
@@ -82,6 +80,7 @@ namespace Managers
         {
             CoreGameSignals.Instance.onPlay?.Invoke();
             CoreUISignals.Instance.onClosePanel?.Invoke(1);
+            CameraSignals.Instance.onSetCameraTarget?.Invoke();
         }
 
         private void OnReset()

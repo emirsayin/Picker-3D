@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public interface ICommand
+namespace Interfaces
 {
-    public void Execute();
-    public void Execute(int value);
+    public interface ICommand
+    {
+        public void Execute();
+        public void Execute(int value);
+    }
 }
