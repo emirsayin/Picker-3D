@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using Data.UnityObjects;
-using Data.ValueObjects;
+﻿using Data.ValueObjects;
 using DG.Tweening;
 using Signals;
 using Sirenix.OdinInspector;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using Controllers.Player;
 
 namespace Controllers.Pool
 {
@@ -26,14 +26,16 @@ namespace Controllers.Pool
 
         [ShowInInspector] private PoolData _data;
         [ShowInInspector] private byte _collectedCount;
+        private PlayerPhysicsController playerPhysics;
 
         #endregion
 
         #endregion
 
         private void Awake()
-        {
+        {   
             _data = GetPoolData();
+            playerPhysics = GameObject.Find("PlayerPhysics").GetComponent<PlayerPhysicsController>();
         }
 
         private PoolData GetPoolData()
@@ -66,7 +68,7 @@ namespace Controllers.Pool
         private void OnChangeThePoolColor(int stageValue)
         {
             if (stageValue == stageID)
-                renderer.material.DOColor(new Color(0.1607842f, 0.6039216f, 0.1766218f), 1).SetEase(Ease.Linear);
+                renderer.material.DOColor(new Color(0.1618903f, 0.2035766f, 0.3207547f), 1).SetEase(Ease.Linear);
         }
 
         private void UnSubscribeEvents()
@@ -89,6 +91,7 @@ namespace Controllers.Pool
         {
             if (stageValue == stageID)
             {
+                playerPhysics.TotalBalls += _collectedCount;
                 return _collectedCount >= _data.RequiredObjectCount;
             }
 
